@@ -239,6 +239,12 @@ bgmiemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8
 codemb = discord.Embed(title="CALL OF DUTY", description="**Call Of Duty is a multiplayer online battle royal game, developed by TiMi Studio Group and published by Activision.react on the emoji to access this game**", color=discord.Color.blurple())
 codemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/codm.png")
 
+valoemb = discord.Embed(title="VALORANT", description="Valorant is a multiplayer online battle royal game made for pc, developed and published by Riot Games. react on the emoji to access this game.", color=discord.Color.blurple())
+valoemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/valorant.png")
+
+
+
+
 
 
 @bot.command()
@@ -248,6 +254,8 @@ async def grole(ctx):
   await ctx.send(embed=bgmiemb)
   await ctx.send(gborder)
   await ctx.send(embed=codemb)
+  await ctx.send(gborder)
+  await ctx.send(embed=valoemb)
   await ctx.send(gborder)
 
 
