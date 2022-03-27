@@ -239,8 +239,8 @@ ffemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/m
 
 @bot.command()
 async def grole(ctx):
-  await ctx.send(embed=ffemb)
-  await ctx.send(gborder)
+  await ctx.send(embed=ffemb, gborder)
+
 
 
 ############################################################################################
