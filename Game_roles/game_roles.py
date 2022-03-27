@@ -18,5 +18,5 @@ ffemb = discord.Embed(title="FREE FIRE", description=ff, color=discord.Color.blu
 
 
 @bot.command()
-async def game_roles(ctx):
+async def grole(ctx):
   await ctx.send(embed=ffemb)
