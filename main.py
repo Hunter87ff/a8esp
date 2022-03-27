@@ -6,6 +6,7 @@ from discord.ext import commands
 #from keep_alive import keep_alive
 from asyncio import sleep
 import datetime
+import game_roles
 #import humanfriendly
 
 
@@ -217,6 +218,11 @@ async def remove_role(ctx, role:discord.Role, user: discord.Member):
   if ctx.author.top_role < role:
     return await ctx.send('**You can not do this**')
 
+
+
+@bot.command()
+async def game_role(ctx):
+  await game_roles.grole(ctx)
 
 ############################################################################################
 #                                      CHANNEL COMMANDS
