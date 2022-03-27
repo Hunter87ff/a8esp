@@ -222,7 +222,8 @@ async def remove_role(ctx, role:discord.Role, user: discord.Member):
 
 @bot.command()
 async def game_role(ctx):
-  await ctx.send(embed=game_role.ffemb)
+  ffemb = game_role.ffemb
+  await ctx.send(embed=ffemb)
 
 ############################################################################################
 #                                      CHANNEL COMMANDS
