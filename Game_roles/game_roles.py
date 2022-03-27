@@ -2,7 +2,12 @@ import discord
 from discord.ext import commands
 
 
-bot = commands.Bot(command_prefix= when_mentioned_or("@"))
+
+
+pref = "@"
+
+
+bot = commands.Bot(command_prefix= commands.when_mentioned_or(pref))
 
 
 
