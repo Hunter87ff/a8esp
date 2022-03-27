@@ -6,7 +6,7 @@ from discord.ext import commands
 #from keep_alive import keep_alive
 from asyncio import sleep
 import datetime
-import game_roles
+import Game_roles.game_roles
 #import humanfriendly
 
 
