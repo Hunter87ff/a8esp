@@ -240,7 +240,7 @@ bgmiemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8
 
 @bot.command()
 async def grole(ctx):
-  await ctx.send(embed=ffemb, gborder, embed=bgmiemb)
+  await ctx.send(embed=ffemb, gborder)
 
 
 
