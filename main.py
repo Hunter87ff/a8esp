@@ -232,14 +232,15 @@ ffemb = discord.Embed(title="FREE FIRE", description="**Garena Free Fire is a ba
 ffemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/freefire.png")
 
 
-
+bgmiemb = discord.Embed(title="", description="Battlegrounds Mobile(BGMI) India Made for players in India. It is an online multiplayer battle royale game developed and published by Krafton. React on the emoji to access this game", color=discord.Color.blurple())
+bgmiemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/bgmi.png")
 
 
 
 
 @bot.command()
 async def grole(ctx):
-  await ctx.send(embed=ffemb, gborder)
+  await ctx.send(embed=ffemb, gborder, embed=bgmiemb)
 
 
 
