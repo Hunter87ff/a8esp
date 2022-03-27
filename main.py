@@ -248,6 +248,7 @@ valoemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8
 
 
 @bot.command()
+@commands.has_permissions(manage_messages=True)
 async def grole(ctx):
   await ctx.send(embed=valoemb)
   await ctx.send(gborder)
