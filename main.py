@@ -6,7 +6,7 @@ from discord.ext import commands
 #from keep_alive import keep_alive
 from asyncio import sleep
 import datetime
-import Game_roles.game_roles
+import game_role
 #import humanfriendly
 
 
@@ -222,7 +222,7 @@ async def remove_role(ctx, role:discord.Role, user: discord.Member):
 
 @bot.command()
 async def game_role(ctx):
-  await game_roles.grole(ctx)
+  await ctx.send(embed=game_role.ffemb)
 
 ############################################################################################
 #                                      CHANNEL COMMANDS
