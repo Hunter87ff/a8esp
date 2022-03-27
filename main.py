@@ -216,9 +216,19 @@ async def remove_role(ctx, role:discord.Role, user: discord.Member):
     return await user.remove_roles(role)
   if ctx.author.top_role < role:
     return await ctx.send('**You can not do this**')
+    
+    
+    
+############################################################################################
+#                                      GAME ROLES 
+############################################################################################
+    
+    
+    
+    
+gborder = "https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/star_border.gif"
 
-
-ffemb = discord.Embed(title="FREE FIRE", description="Garena Free Fire Max is a battle royal game. Played by millions of people. Developed by 111 dots studio and published by Garena. React on the emoji to access this game!", color=discord.Color.blurple())
+ffemb = discord.Embed(title="FREE FIRE", description="**Garena Free Fire Max is a battle royal game. Played by millions of people. Developed by 111 dots studio and published by Garena. React on the emoji to access this game!**", color=discord.Color.blurple())
 ffemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/freefire.png")
 
 
@@ -230,6 +240,7 @@ ffemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/m
 @bot.command()
 async def grole(ctx):
   await ctx.send(embed=ffemb)
+  await ctx.send(gborder)
 
 
 ############################################################################################
