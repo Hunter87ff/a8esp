@@ -6,7 +6,6 @@ from discord.ext import commands
 #from keep_alive import keep_alive
 from asyncio import sleep
 import datetime
-import game_role
 #import humanfriendly
 
 
@@ -219,11 +218,19 @@ async def remove_role(ctx, role:discord.Role, user: discord.Member):
     return await ctx.send('**You can not do this**')
 
 
+ffemb = discord.Embed(title="FREE FIRE", description="Garena Free Fire Max is a battle royal game. Played by millions of people. Developed by 111 dots studio and published by Garena. React on the emoji to access this game!", color=discord.Color.blurple())
+ffemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/freefire.png")
+
+
+
+
+
+
 
 @bot.command()
-async def game_role(ctx):
-  ffemb = game_role.ffemb
+async def grole(ctx):
   await ctx.send(embed=ffemb)
+
 
 ############################################################################################
 #                                      CHANNEL COMMANDS
