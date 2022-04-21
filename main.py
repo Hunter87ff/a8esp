@@ -175,6 +175,7 @@ async def dm(ctx, member:discord.Member, *, message):
     embed = discord.Embed(description=message, color= discord.Color.blue())
     embed.set_footer(text=f'{ctx.author}',icon_url=ctx.author.avatar_url)
     await member.send(embed=embed)
+    
 
 
 
