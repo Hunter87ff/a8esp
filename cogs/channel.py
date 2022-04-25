@@ -20,7 +20,7 @@ class Channel(commands.Cog):
 	async def channel_make(self, ctx, *names):
 		for name in names:
 			await ctx.guild.create_text_channel(name)
-			await ctx.send(f'**<:vf:947194381172084767>`{name}` has been created**',delete_after=5)
+			await ctx.send(f'** :white_check_mark:`{name}` has been created**',delete_after=5)
 			await sleep(1)
 
 
@@ -29,7 +29,7 @@ class Channel(commands.Cog):
 	async def channel_del(self, ctx, *channels: discord.TextChannel):
 		for ch in channels:
 			await ch.delete()
-			await ctx.send(f'**<:vf:947194381172084767>`{ch.name}` has been deleted**',delete_after=5)
+			await ctx.send(f'** :white_check_mark:`{ch.name}` has been deleted**',delete_after=5)
 			await sleep(1)
 
 
@@ -40,7 +40,7 @@ class Channel(commands.Cog):
 		channels = category.channels
 		for channel in channels:
 			await channel.delete(reason=f'Deleted by {ctx.author.name}')
-			await ctx.send(f'**<:vf:947194381172084767>Successfully deleted  by {ctx.author.name}**', delete_after=5)
+			await ctx.send(f'** :white_check_mark:Successfully deleted  by {ctx.author.name}**', delete_after=5)
 
 
 

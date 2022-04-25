@@ -5,9 +5,10 @@ from discord.ext import commands
 #from discord.ui import Button, View
 #from keep_alive import keep_alive
 from asyncio import sleep
-import datetime
 #import humanfriendly
-
+import datetime , time
+import json
+from data import *
 
 
 
@@ -54,6 +55,12 @@ async def on_ready():
 
 
 
+for filename in os.listdir("./cogs"):
+    if filename.endswith(".py"):
+        bot.load_extension(f"cogs.{filename[:-3]}")
+
+
+
 @bot.event
 async def on_member_join(member):
 	channel = bot.get_channel(881566918312595466)
@@ -79,7 +86,8 @@ async def on_command_error(ctx, error):
       await ctx.send("This command is currenlty disabled. Please try again later")
 
     elif isinstance(error, commands.CommandNotFound):
-      await ctx.send("*Command not found! please check the spelling carefully")
+      await ctx.send("**Command not found! please check the spelling carefully**")
+      print(ctx.message.content)
 
     elif isinstance(error, (commands.MissingRole, commands.MissingAnyRole)):
       await ctx.send("You dont have the exact role to use this command")
@@ -89,60 +97,8 @@ async def on_command_error(ctx, error):
 
 
 
-  
-##########################################################################################
-#                                          USER AND SERVER COMMANDS
-############################################################################################
-@bot.command(aliases=['av'])
-async def avatar(ctx, member: discord.Member = None):
-	if member == None:
-		 member = ctx.author
-	await ctx.send(member.avatar_url)
-
-'''@bot.command(aliases=['sav'])
-async def server_avatar(ctx):
-	guild = ctx.guild
-	await ctx.send(guild.icon.url)'''
 
 
-
-@bot.command(aliases=['bnr'])
-async def banner(ctx, user:discord.Member = None ):
-    if user == None:
-        user = ctx.author
-    req = await bot.http.request(discord.http.Route("GET", "/users/{uid}", uid=user.id))
-    banner_id = req["banner"]
-    # If statement because the user may not have a banner
-    if banner_id:
-        banner_url = f"https://cdn.discordapp.com/banners/{user.id}/{banner_id}.gif?size=1024"
-    await ctx.send(f"{banner_url}")
-
-@bot.command(pass_context=True)
-async def tag(ctx):
-  member = ctx.author
-  nick = f'"   𝐀𝟖 |' + ctx.author.name
-  await member.edit(nick=nick)
-  await ctx.channel.purge(limit=1)
-  await ctx.send("Done", delete_after=5)
-
-
-@bot.command()
-async def prefix(ctx):
-	await ctx.channel.purge(limit=1)
-	await ctx.send(f"** My prefix is `{pref}`**")
-##########################################################################################
-#                                          VOICE COMMANDS
-############################################################################################
-
-
-
-
-
-
-
-##########################################################################################
-#                                          TEXT COMMANDS
-############################################################################################
 
 class Nhelp(commands.MinimalHelpCommand):
     async def send_pages(self):
@@ -153,107 +109,6 @@ class Nhelp(commands.MinimalHelpCommand):
             await destination.send(embed=emby)
 bot.help_command = Nhelp(no_category = 'Commands')
 
-
-@bot.command()
-@commands.has_permissions(manage_messages=True)
-async def em(ctx, url,* , msg):
-  emb = discord.Embed(description=msg, color=discord.Color.red())
-  emb.set_image(url=url)
-  await ctx.channel.purge(limit=1)
-  await ctx.send(embed=emb)
-
-
-  
-#embed command
-@bot.command(aliases=['emb'])
-async def embed(ctx, *, msg):
-    embed = discord.Embed(description=msg, color=4 * 5555)
-    await ctx.channel.purge(limit=1)
-    await ctx.send(embed=embed)
-
-
-#clear command
-@bot.command()
-@commands.has_permissions(manage_messages=True)
-async def clear(ctx, amount: int):
-    await ctx.channel.purge(limit=amount)
-    await ctx.send(f'**<:vf:910094232574894100>  Successfully cleared {amount} messages**',delete_after=5)
-
-
-
-
-
-#react command
-@bot.command()
-@commands.has_permissions(manage_messages=True)
-async def react(ctx,message_id,* emojis):
-  for emoji in emojis:
-    channel = ctx.channel
-    msg = await channel.fetch_message(message_id)
-    await msg.add_reaction(emoji)
-    await channel.purge(limit=1)
-
-
-
-
-@bot.command()
-@commands.has_role(956071928563630120)
-@commands.cooldown(2, 10, commands.BucketType.user)
-async def dm(ctx, member:discord.Member, *, message):
-    embed = discord.Embed(description=message, color= discord.Color.blue())
-    embed.set_footer(text=f'{ctx.author}',icon_url=ctx.author.avatar_url)
-    await member.send(embed=embed)
-    
-
-
-
-############################################################################################
-#                                          ROLE COMMANDS
-############################################################################################
-
-
-#create role
-@bot.command(aliases=['crole'],help="**Use this command to crate roles\nExample: &crole Family**")
-@commands.has_permissions(manage_roles=True)
-async def create_roles(ctx, *names):
-    for name in names:
-        guild = ctx.guild
-        await guild.create_role(name=name)
-        await ctx.send(f"**<:vf:910094232574894100>  Role `{name}` has been created**")
-
-
-#delet role
-@bot.command(aliases=['drole'])
-@commands.has_permissions(manage_roles=True)
-async def delete_roles(ctx, *roles: discord.Role):
-    for role in roles:
-        await ctx.send(f'**<:vf:910094232574894100>  Role {role.name} has been deleted**')
-        await role.delete()
-        await ctx.channel.purge(limit=2)
-
-
-#role give
-@bot.command(aliases=['role'], pass_context=True,help="Use this command to give role to someone \nExample : &role  @family @hunter")
-@commands.has_permissions(manage_roles=True)
-async def give_role(ctx,role: discord.Role, user: discord.Member):
-	if ctx.author.top_role < role:
-		return await ctx.send("you don't have enough permission")
-	if ctx.author.top_role > role:
-		return await user.add_roles(role)
-
-
-
-#role remove
-@bot.command(aliases=['rrole'], pass_context=True,help="Use this command to remove role from someone \n \n Example : &rrole @role @hunter ")
-@commands.has_permissions(manage_roles=True)
-async def remove_role(ctx, role:discord.Role, user: discord.Member):
-  if ctx.author.top_role > role:
-    return await user.remove_roles(role)
-  if ctx.author.top_role < role:
-    return await ctx.send('**You can not do this**')
-    
-    
-    
 ############################################################################################
 #                                      GAME ROLES 
 ############################################################################################
@@ -295,67 +150,6 @@ async def grole(ctx):
 
 
 
-############################################################################################
-#                                      CHANNEL COMMANDS
-############################################################################################
-
-
-#lock command
-@bot.command(help=" Use this command to lock a channel")
-@commands.has_permissions(manage_channels=True)
-async def lock(ctx):
-    await ctx.channel.set_permissions(ctx.guild.default_role,send_messages=False)
-    await ctx.channel.purge(limit=1)
-    await ctx.send('**<:vf:910094232574894100>  Channel has been locked**', delete_after=5)
-    
-
-
-#unlock command
-@bot.command(help=" Use this command to lock a channel")
-@commands.has_permissions(manage_channels=True)
-async def unlock(ctx):
-    await ctx.channel.set_permissions(ctx.guild.default_role,send_messages=True)
-    await ctx.channel.purge(limit=1)
-    await ctx.send('**<:vf:910094232574894100>  Channel has been unlocked**', delete_after=5)
-
-
-
-#hide channel
-@bot.command(help=" Use this command to hide a channel")
-@commands.has_permissions(manage_channels=True)
-async def hide(ctx):
-    await ctx.channel.set_permissions(ctx.guild.default_role,view_channel=False)
-    await ctx.channel.purge(limit=1)
-    await ctx.send('**<:vf:910094232574894100> This channel is hidden from everyone**',delete_after=5)
-
-
-#unhide channel
-@bot.command(help=" Use this command to unhide a channel")
-@commands.has_permissions(manage_channels=True)
-async def unhide(ctx):
-    await ctx.channel.set_permissions(ctx.guild.default_role,view_channel=True)
-    await ctx.channel.purge(limit=1)
-    await ctx.send('**<:vf:910094232574894100> This channel is visible to everyone**', delete_after=5)
-
-
-#channel create
-@bot.command(aliases=['chm'])
-@commands.has_permissions(manage_channels=True)
-async def channel_create(ctx, *names):
-    for name in names:
-        await ctx.guild.create_text_channel(name)
-        await ctx.send(f'**<:vf:910094232574894100> `{name}` has been created**',delete_after=5)
-        await sleep(1)
-
-
-#channel delete
-@bot.command(aliases=['chd'])
-@commands.has_permissions(manage_channels=True)
-async def channel_del(ctx, *channels: discord.TextChannel):
-    for ch in channels:
-        await ch.delete()
-        await ctx.send(f'**<:vf:910094232574894100> `{ch.name}` has been deleted**',delete_after=5)
-        await sleep(1)
 
 
 
@@ -375,60 +169,8 @@ async def tourney_setup(ctx,front,*,category=None):
     await ctx.guild.create_text_channel(str(front)+"queries", category=category, reason=reason)
     await ctx.send(f'**<:vf:910094232574894100> Successfully Created**',delete_after=5)
 
-
-
-#delete category
-@bot.command(aliases=['dc'])
-@commands.has_permissions(administrator=True)
-async def delete_category(ctx,category: discord.CategoryChannel):
-	channels = category.channels
-	for channel in channels:
-		await channel.delete(reason=f'Deleted by {ctx.author.name}')
-		await ctx.send(f'**<:vf:910094232574894100> Successfully deleted  by {ctx.author.name}**', delete_after=5)
-
-	 
-    
-#create channel by category id
-@bot.command(aliases=['cch'])
-@commands.has_permissions(manage_channels=True)
-async def create_channels(ctx,category,name):
-	    category = await bot.fetch_channel(category)
-	    await ctx.guild.create_text_channel(name, category=category, reason=f"{ctx.author} created")
 		 
 
-
-		 
-############################################################################################
-#                                       KICK / BAN / MUTE
-############################################################################################
-'''@bot.command()
-async def mute(ctx,member:discord.Member, time,*, reason):
-	time = humanfriendly.parse_time(time)
-	await member.edit(timeout=discord.utils.utcnow()=datetime.timedelta(seconds=time))
-  await ctx.send(f"Member Successfully Muted")'''
-
-#kick command
-@bot.command()
-@commands.has_permissions(kick_members=True)
-async def kick(ctx, user: discord.Member, reason=None):
-	if reason == None:
-		reason = f"{user} kicked by {ctx.author}"
-	if ctx.author.top_role < user.top_role:
-		return await ctx.send('**You can not kick him**')
-	if ctx.author.top_role > user.top_role:
-		return await ctx.guild.kick(user, reason=reason)
-
-
-#ban command
-@bot.command()
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, user: discord.Member, reason=None):
-	if reason == None:
-		reason = f"{user} banned by {ctx.author}"
-	if ctx.author.top_role < user.top_role:
-		return await ctx.send('**You can not ban him**')
-	if ctx.author.top_role > user.top_role:
-		return await ctx.guild.ban(user, reason=reason)
 	
 ############################################################################################
 #                                       INFO

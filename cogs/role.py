@@ -41,7 +41,7 @@ class Roles(commands.Cog):
 		for role in roles:
 			await ctx.guild.create_roles(role, reason=f"Created by {ctx.author}")
 			await ctx.channel.purge(limit=1)
-			await ctx.send(f'**<:vf:947194381172084767> {role} Created by {ctx.author}**', delete_after=5)
+			await ctx.send(f'** :white_check_mark: {role} Created by {ctx.author}**', delete_after=5)
 
 
 

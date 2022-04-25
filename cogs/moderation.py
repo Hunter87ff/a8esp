@@ -54,7 +54,7 @@ class Moderation(commands.Cog):
 	async def lock(self, ctx):
 		await ctx.channel.set_permissions(ctx.guild.default_role,send_messages=False, add_reactions=False)
 		await ctx.channel.purge(limit=1)
-		await ctx.send('**<:vf:947194381172084767> Channel has been locked**', delete_after=5)
+		await ctx.send('** :white_check_mark: Channel has been locked**', delete_after=5)
 
 
 	@cmd.command(help=" Use this command to unlock a channel")
@@ -62,7 +62,7 @@ class Moderation(commands.Cog):
 	async def unlock(self, ctx):
 		await ctx.channel.set_permissions(ctx.guild.default_role,send_messages=True, add_reactions=True)
 		await ctx.channel.purge(limit=1)
-		await ctx.send('**<:vf:947194381172084767> Channel has been unlocked**', delete_after=5)
+		await ctx.send('** :white_check_mark: Channel has been unlocked**', delete_after=5)
 
 
 
@@ -71,7 +71,7 @@ class Moderation(commands.Cog):
 	async def hide(self, ctx):
 		await ctx.channel.set_permissions(ctx.guild.default_role,view_channel=False)
 		await ctx.channel.purge(limit=1)
-		await ctx.send('**<:vf:947194381172084767>This channel is hidden from everyone**',delete_after=5)
+		await ctx.send('** :white_check_mark:This channel is hidden from everyone**',delete_after=5)
 
 
 
@@ -82,7 +82,7 @@ class Moderation(commands.Cog):
 	async def unhide(self, ctx):
 		await ctx.channel.set_permissions(ctx.guild.default_role,view_channel=False)
 		await ctx.channel.purge(limit=1)
-		await ctx.send('**<:vf:947194381172084767>This channel is visible to everyone**',delete_after=5)
+		await ctx.send('** :white_check_mark:This channel is visible to everyone**',delete_after=5)
 
 
 	@cmd.command(aliases=['lc'])
@@ -91,7 +91,7 @@ class Moderation(commands.Cog):
 		channels = category.channels
 		for channel in channels:
 			await channel.set_permissions(ctx.guild.default_role,send_messages=False,add_reactions=False)
-			await ctx.send(f'**<:vf:947194381172084767>Successfully Locked**', delete_after=5)
+			await ctx.send(f'** :white_check_mark:Successfully Locked**', delete_after=5)
 
 
 	@cmd.command(aliases=['ulc'])
@@ -100,7 +100,7 @@ class Moderation(commands.Cog):
 		channels = category.channels
 		for channel in channels:
 			await channel.set_permissions(ctx.guild.default_role,send_messages=True,add_reactions=True)
-			await ctx.send(f'**<:vf:947194381172084767>Successfully Unlocked**', delete_after=5)
+			await ctx.send(f'** :white_check_mark:Successfully Unlocked**', delete_after=5)
 
 
 	@cmd.command(aliases=['hc'])
@@ -109,7 +109,7 @@ class Moderation(commands.Cog):
 		channels = category.channels
 		for channel in channels:
 			await channel.set_permissions(ctx.guild.default_role,view_channel=False)
-			await ctx.send(f'**<:vf:947194381172084767> {channel.mention} is Hidden from everyone**', delete_after=5)
+			await ctx.send(f'** :white_check_mark: {channel.mention} is Hidden from everyone**', delete_after=5)
 
 
 	@cmd.command(aliases=['uhc'])
@@ -118,7 +118,7 @@ class Moderation(commands.Cog):
 		channels = category.channels
 		for channel in channels:
 			await channel.set_permissions(ctx.guild.default_role,view_channel=True)
-			await ctx.send(f'**<:vf:947194381172084767> {channel.mention} is Visible to everyone**', delete_after=5)
+			await ctx.send(f'** :white_check_mark: {channel.mention} is Visible to everyone**', delete_after=5)
 
 
 	@cmd.command(aliases=['cch'])
@@ -136,7 +136,7 @@ class Moderation(commands.Cog):
 	@commands.has_permissions(manage_messages=True)
 	async def clear(self, ctx, amount:int):
 		await ctx.channel.purge(limit=amount)
-		return await ctx.send(f'**<:vf:947194381172084767> Successfully cleared {amount} messages**',delete_after=5)
+		return await ctx.send(f'** :white_check_mark: Successfully cleared {amount} messages**',delete_after=5)
 
 
 

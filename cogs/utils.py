@@ -104,6 +104,12 @@ class Utility(commands.Cog):
 		await ctx.send(message)
 
 
+	@cmd.command()
+	async def tag(self, ctx):
+		nick = f'"   𝐀𝟖 |' + ctx.author.name
+		await ctx.author.edit(nick=nick)
+		await ctx.send("Done", delete_after=5)
+
 
 	
 	@cmd.command()
@@ -127,7 +133,7 @@ class Utility(commands.Cog):
 
 	@cmd.command()
 	async def em(self, ctx, image, *, message):
-		emb = discord.Embed(desctiption=message, color=blue)
+		emb = discord.Embed(desctiption=message, color=red)
 		emb.set_image(url=image)
 		await ctx.channel.purge(limit=1)
 		await ctx.snd(embed=emb)
@@ -139,6 +145,16 @@ class Utility(commands.Cog):
 			msg = await ctx.channel.fetch_message(msg_id)
 			await ctx.channel.purge(limit=1)
 			await msg.add_reaction(emoji)
+
+
+	@cmd.command()
+	@commands.has_role(956071928563630120)
+	@commands.cooldown(2, 10, commands.BucketType.user)
+	async def dm(ctx, member:discord.Member, *, message):
+		embed = discord.Embed(description=message, color=red)
+		embed.set_footer(text=f'{ctx.author}',icon_url=ctx.author.avatar_url)
+		await member.send(embed=embed)
+
 
 
 
@@ -167,7 +183,8 @@ class Utility(commands.Cog):
 
 	@cmd.command(aliases=['mc'])
 	async def member_count(self, ctx):
-		emb = discord.Embed(description=f"{ctx.guild.member_count}", color=0xffff00)
+		emb = discord.Embed(Title="Members", description=f"{ctx.guild.member_count}", color=red)
+		emb.set_footer(text=f'Requested by {ctx.author}',icon_url=ctx.author.avatar_url)
 		await ctx.channel.purge(limit=1)
 		await ctx.send(embed=emb)
 
@@ -175,23 +192,9 @@ class Utility(commands.Cog):
 
 
 	@cmd.command()
-	@commands.cooldown(2, 180, commands.BucketType.user)
-	async def dm(self, ctx, user : discord.User, *, message):
-		if ctx.author.id == 885193210455011369:
-			emb = discord.Embed(description=message, color=blue)
-			emb.set_footer(text=f'{ctx.author}',icon_url=ctx.author.avatar_url)
-			return await user.send(embed=emb)
-			await ctx.channel.purge(limit=1)
-
-		else:
-			return await ctx.chanel.purge(limit=1)
-			return await ctx.send("You aren't a  premium user", delete_after=5)
-
-
-	@cmd.command()
 	async def nick(self, ctx, user:discord.Member,  *, Nick):
 		if ctx.author.top_role < user.top_role:
-			return await ctx.send("You don't have enough permission")
+			return await ctx.send("**You don't have enough permission**")
 
 		if self.bot.top_role < user.top_role:
 			return await ctx.send("I don't have enough permission")
