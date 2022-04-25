@@ -61,6 +61,34 @@ async def on_member_join(member):
 	emb.set_image(url="https://github.com/Hunter87ff/a8esp/blob/main/assets/standard1.gif?raw=true")
 	await channel.send(embed=emb)
 
+
+
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('**Please enter required Arguments **')
+    elif isinstance(error, commands.CommandOnCooldown):
+        await ctx.send('**Try again <t:{}:R>**'.format(int(time.time() + error.retry_after)))
+      
+    elif isinstance(error, commands.MissingPermissions):
+      return await ctx.send("You don't have permission to use this command")
+
+    elif isinstance(error, commands.DisabledCommand):
+      await ctx.send("This command is currenlty disabled. Please try again later")
+
+    elif isinstance(error, commands.CommandNotFound):
+      await ctx.send("*Command not found! please check the spelling carefully")
+
+    elif isinstance(error, (commands.MissingRole, commands.MissingAnyRole)):
+      await ctx.send("You dont have the exact role to use this command")
+
+    else:
+        return await ctx.send("Something went wrong!")
+
+
+
   
 ##########################################################################################
 #                                          USER AND SERVER COMMANDS
