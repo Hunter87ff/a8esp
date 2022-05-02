@@ -12,7 +12,7 @@ from data import *
 
 
 
-pref = '@'
+pref = ','
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(pref),intents=discord.Intents.all())
 
 
