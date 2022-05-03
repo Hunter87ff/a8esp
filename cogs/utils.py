@@ -48,6 +48,7 @@ green = 0x2ecc71
 d_green = 0x1f8b4c
 teal = 0x1abc9c
 d_teal = 0x11806a
+yellow = 0xffff00
 
 pref = "&"
 
@@ -133,7 +134,7 @@ class Utility(commands.Cog):
 
 	@cmd.command()
 	async def em(self, ctx, image, *, message):
-		emb = discord.Embed(description=message, color=red)
+		emb = discord.Embed(description=message, color=yellow)
 		emb.set_image(url=image)
 		await ctx.channel.purge(limit=1)
 		await ctx.send(embed=emb)
