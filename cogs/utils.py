@@ -133,7 +133,7 @@ class Utility(commands.Cog):
 
 	@cmd.command()
 	async def em(self, ctx, image, *, message):
-		emb = discord.Embed(desctiption=message, color=red)
+		emb = discord.Embed(description=message, color=red)
 		emb.set_image(url=image)
 		await ctx.channel.purge(limit=1)
 		await ctx.send(embed=emb)
