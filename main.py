@@ -50,7 +50,6 @@ async def setprefix(ctx, *, prefixes=""):
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='ATOMIC 8'))
-  
     print(f'{bot.user} is ready')
 
 
