@@ -75,28 +75,39 @@ async def on_member_join(member):
 
 
 
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('**Please enter required Arguments **')
     elif isinstance(error, commands.CommandOnCooldown):
-        await ctx.send('**Try again <t:{}:R>**'.format(int(time.time() + error.retry_after)))
+        return await ctx.send('**Try again <t:{}:R>**'.format(int(time.time() + error.retry_after)))
+        print(ctx.message.content)
       
     elif isinstance(error, commands.MissingPermissions):
-      return await ctx.send("You don't have permission to use this command")
+        return await ctx.send("You don't have permission to use this command")
+        print(ctx.message.content) 
 
     elif isinstance(error, commands.DisabledCommand):
-      await ctx.send("This command is currenlty disabled. Please try again later")
+        return await ctx.send("This command is currenlty disabled. Please try again later")
+        print(ctx.message.content)
 
     elif isinstance(error, commands.CommandNotFound):
-      await ctx.send("**Command not found! please check the spelling carefully**")
-      print(ctx.message.content)
+        return await ctx.send("**Command not found! please check the spelling carefully**")
+        print(ctx.message.content)
 
     elif isinstance(error, (commands.MissingRole, commands.MissingAnyRole)):
-      await ctx.send("You dont have the exact role to use this command")
+        return await ctx.send("You dont have the exact role to use this command")
+        print(ctx.message.content)
+
+    elif isinstance(error, commands.UserInputError):
+        return await ctx.send("**Invalid input**")
+        print(ctx.message.content)
 
     else:
-        return await ctx.send("Something went wrong!")
+        e = str(error)
+        await ctx.send(f"```py\n{e}```")
+
 
 
 
