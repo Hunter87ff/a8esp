@@ -12,7 +12,7 @@ from data import *
 
 
 
-pref = '@'
+pref = ','
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(pref),intents=discord.Intents.all())
 
 
@@ -50,7 +50,6 @@ async def setprefix(ctx, *, prefixes=""):
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='ATOMIC 8'))
-  
     print(f'{bot.user} is ready')
 
 
@@ -63,10 +62,14 @@ for filename in os.listdir("./cogs"):
 
 @bot.event
 async def on_member_join(member):
-	channel = bot.get_channel(881566918312595466)
+	wchannel = bot.get_channel(881566918312595466)
+	greet = bot.get_channel(880423346200784916)
 	emb = discord.Embed(description=f"**Hey,{member.mention}\n<a:a8welcome:912175487189663754>  TO ATOMIC 8 \n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:bh2:955529320368066590>╎Read Rules in <#880431068942053406> \n<a:bh2:955529320368066590>╎Chat with Server Members in <#880423346200784916> \n<a:bh2:955529320368066590>╎Take Self Roles From <#881567235053858867>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:heart_beat:955528805039104000> Thanks For Joining <a:heart_beat:955528805039104000>**", color=discord.Color.blurple())
 	emb.set_image(url="https://github.com/Hunter87ff/a8esp/blob/main/assets/standard1.gif?raw=true")
-	await channel.send(embed=emb)
+	
+	gret = discord.Embed(description=f"**{member.mention}\n<a:bh2:955529320368066590> WELCOME TO ATOMIC 8 <a:bh2:955529320368066590> **\n━━━━━━━━━▣✦▣━━━━━━━━\n<a:arow:909343227956559944> TAKE SELF ROLES FROM  <#881567235053858867>\n<a:arow:909343227956559944> READ RULES HERE <#880431068942053406>\n<a:arow:909343227956559944> FOR ANY HELP  <#899898526455181352>\n━━━━━━━━━▣✦▣━━━━━━━━\n** <a:heart_beat:955528805039104000> THANKS FOR JOINING <a:heart_beat:955528805039104000> **")
+	await wchannel.send(embed=emb)
+	await greet.send(embed=gret)
 
 
 
