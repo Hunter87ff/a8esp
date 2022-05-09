@@ -150,6 +150,19 @@ async def grole(ctx):
 
 
 
+@bot.command()
+async def tf(ctx, link, type):
+    if "solo" in type:
+        emb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 100INR\nIDP TIME : 7PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
+        return await ctx.send("<@&960210472211206175>", embed=emb)
+        
+    if "squad" in type:
+        smb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SQUAD\nPRIZE POOL : 100INR\nIDP TIME : 3PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
+        return await ctx.send("<@&960210472211206175>" , embed=smb)
+
+    else:
+        return await ctx.send("**Please enter a valid type\nTypes: solo , squad**")
+        
 
 
 
