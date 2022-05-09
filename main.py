@@ -169,6 +169,7 @@ async def tf(ctx, link, type):
 
 
 
+
 #tournament setup (category and channels)
 @bot.command(aliases=['ts','tsetup'])
 @commands.has_permissions(manage_channels=True)
