@@ -8,8 +8,29 @@ from asyncio import sleep
 #import humanfriendly
 import datetime , time
 import json
-from data import *
+from data import color
 
+
+blurple = 0x7289da
+greyple = 0x99aab5
+d_grey = 0x546e7a
+d_theme = 0x36393F
+l_grey = 0x979c9f
+d_red = 0x992d22
+red = 0xe74c3c
+d_orange = 0xa84300
+orange= 0xe67e22
+d_gold = 0xc27c0e
+gold = 0xf1c40f
+magenta = 0xe91e63
+purple = 0x9b59b6
+d_blue = 0x206694 
+blue = 0x3498db
+green = 0x2ecc71
+d_green = 0x1f8b4c
+teal = 0x1abc9c
+d_teal = 0x11806a
+yellow = 0xffff00
 
 
 pref = ','
@@ -67,9 +88,9 @@ async def on_member_join(member):
 	emb = discord.Embed(description=f"**Hey,{member.mention}\n<a:a8welcome:912175487189663754>  TO ATOMIC 8 \n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:bh2:955529320368066590>╎Read Rules in <#880431068942053406> \n<a:bh2:955529320368066590>╎Chat with Server Members in <#880423346200784916> \n<a:bh2:955529320368066590>╎Take Self Roles From <#881567235053858867>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:heart_beat:955528805039104000> Thanks For Joining <a:heart_beat:955528805039104000>**", color=discord.Color.blurple())
 	emb.set_image(url="https://github.com/Hunter87ff/a8esp/blob/main/assets/standard1.gif?raw=true")
 	
-	gret = discord.Embed(description=f"**{member.mention}\n<a:bh2:955529320368066590> WELCOME TO ATOMIC 8 <a:bh2:955529320368066590> **\n━━━━━━━━━▣✦▣━━━━━━━━\n<a:arow:909343227956559944> TAKE SELF ROLES FROM  <#881567235053858867>\n<a:arow:909343227956559944> READ RULES HERE <#880431068942053406>\n<a:arow:909343227956559944> FOR ANY HELP  <#899898526455181352>\n━━━━━━━━━▣✦▣━━━━━━━━\n** <a:heart_beat:955528805039104000> THANKS FOR JOINING <a:heart_beat:955528805039104000> **")
+	gret = discord.Embed(description=f"**<a:bh2:955529320368066590> WELCOME TO ATOMIC 8 <a:bh2:955529320368066590> **\n━━━━━━━━━▣✦▣━━━━━━━━\n<a:arow:909343227956559944> TAKE SELF ROLES FROM  <#881567235053858867>\n<a:arow:909343227956559944> READ RULES HERE <#880431068942053406>\n<a:arow:909343227956559944> FOR ANY HELP  <#899898526455181352>\n━━━━━━━━━▣✦▣━━━━━━━━\n** <a:heart_beat:955528805039104000> THANKS FOR JOINING <a:heart_beat:955528805039104000> **", color=discord.Color.blurple())
 	await wchannel.send(embed=emb)
-	await greet.send(embed=gret)
+	await greet.send(f"{member.mention}", embed=gret)
 
 
 
