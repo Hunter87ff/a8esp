@@ -154,6 +154,7 @@ async def grole(ctx):
 
 
 @bot.command()
+@commands.has_permissions(manage_messages=True)
 async def tf(ctx, link, type):
     if "solo" in type:
         emb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 100INR\nIDP TIME : 7PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
