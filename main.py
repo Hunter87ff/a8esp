@@ -185,25 +185,34 @@ async def grole(ctx):
 
 
 
-@bot.command(help=f"Options[ solo1, solo2, squad]")
+@bot.command(help=f"types[ solo1, solo2, squad]")
 @commands.has_permissions(manage_messages=True)
-async def tf(ctx, link, option):
+async def tf(ctx, link, type):
     if "solo1" in type:
         so1 = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 50INR\nIDP TIME : 3PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
-        return await ctx.send("<@&960210472211206175>", embed=so1)
+        await ctx.channel.purge(limit=1)
+        solo1 = await ctx.send("<@&960210472211206175>", embed=so1)
+        await solo1.add_reaction("✅")
+
         
-    if "solo2" in type:
+        
+    elif "solo2" in type:
         so2 = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 50INR\nIDP TIME : 3:30PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
-        return await ctx.send("<@&960210472211206175>", embed=so2)
+        await ctx.channel.purge(limit=1)
+        solo2 =  await ctx.send("<@&960210472211206175>", embed=so2)
+        await solo2.add_reaction("✅")
                 
         
         
-    if "squad" in type:
+    elif "squad" in type:
         smb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SQUAD\nPRIZE POOL : 50INR\nIDP TIME : 7:30PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
-        return await ctx.send("<@&960210472211206175>" , embed=smb)
+        await ctx.channel.purge(limit=1)
+        squad = await ctx.send("<@&960210472211206175>" , embed=smb)
+        await squad.add_reaction("✅")
+
 
     else:
-        return await ctx.send("**Please enter a valid type\nTypes: solo , squad**")
+        return await ctx.send("**Please enter a valid type\nTypes: solo1, solo2 , squad**")
         
 
 
