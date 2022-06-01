@@ -185,7 +185,7 @@ async def grole(ctx):
 
 
 
-@bot.command(help=f"Options[ solo1, solo2, squad]\nUsage- `{pref}tf <link> <Option>` ")
+@bot.command(help=f"Options[ solo1, solo2, squad]")
 @commands.has_permissions(manage_messages=True)
 async def tf(ctx, link, option):
     if "solo1" in type:
