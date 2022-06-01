@@ -187,14 +187,14 @@ async def grole(ctx):
 
 @bot.command(help=f"Options[ solo1, solo2, squad]\nUsage- `{pref}tf <link> <Option>` ")
 @commands.has_permissions(manage_messages=True)
-async def tf(ctx, link, type):
+async def tf(ctx, link, option):
     if "solo1" in type:
-        emb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 50INR\nIDP TIME : 3PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
-        return await ctx.send("<@&960210472211206175>", embed=emb)
+        so1 = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 50INR\nIDP TIME : 3PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
+        return await ctx.send("<@&960210472211206175>", embed=so1)
         
     if "solo2" in type:
-        emb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 50INR\nIDP TIME : 3:30PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
-        return await ctx.send("<@&960210472211206175>", embed=emb)
+        so2 = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SOLO\nPRIZE POOL : 50INR\nIDP TIME : 3:30PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
+        return await ctx.send("<@&960210472211206175>", embed=so2)
                 
         
         
