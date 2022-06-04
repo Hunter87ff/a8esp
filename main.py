@@ -88,7 +88,7 @@ async def on_member_join(member):
 	emb = discord.Embed(description=f"**Hey,{member.mention}\n<a:a8_welcome:977877642416111667>  TO ATOMIC 8 \n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:bh2:955529320368066590>╎Read Rules in <#880431068942053406> \n<a:bh2:955529320368066590>╎Chat with Server Members in <#880423346200784916> \n<a:bh2:955529320368066590>╎Take Self Roles From <#881567235053858867>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:heart_beat:955528805039104000> Thanks For Joining <a:heart_beat:955528805039104000>**", color=discord.Color.blurple())
 	emb.set_image(url="https://github.com/Hunter87ff/a8esp/blob/main/assets/standard1.gif?raw=true")
 	
-	gret = discord.Embed(description=f"**<a:bh2:955529320368066590> WELCOME TO ATOMIC 8 <a:bh2:955529320368066590> **\n━━━━━━━━━▣✦▣━━━━━━━━\n<a:arow:909343227956559944> TAKE SELF ROLES FROM  <#881567235053858867>\n<a:arow:909343227956559944> READ RULES HERE <#880431068942053406>\n<a:arow:909343227956559944> FOR ANY HELP  <#899898526455181352>\n━━━━━━━━━▣✦▣━━━━━━━━\n** <a:heart_beat:955528805039104000> THANKS FOR JOINING <a:heart_beat:955528805039104000> **", color=discord.Color.blurple())
+	gret = discord.Embed(description=f"**<a:bh2:955529320368066590> WELCOME TO ATOMIC 8 <a:bh2:955529320368066590> **\n━━━━━━━━━▣✦▣━━━━━━━━\n<a:arow:982521407223246888> TAKE SELF ROLES FROM  <#881567235053858867>\n<a:arow:982521407223246888> READ RULES HERE <#880431068942053406>\n<a:arow:982521407223246888> FOR ANY HELP  <#899898526455181352>\n━━━━━━━━━▣✦▣━━━━━━━━\n** <a:heart_beat:955528805039104000> THANKS FOR JOINING <a:heart_beat:955528805039104000> **", color=discord.Color.blurple())
 	await wchannel.send(embed=emb)
 	await greet.send(f"{member.mention}", embed=gret)
 
