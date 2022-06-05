@@ -205,7 +205,7 @@ async def tf(ctx, link, type):
         
         
     elif "squad" in type:
-        smb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SQUAD\nPRIZE POOL : 50INR\nIDP TIME : 7:30PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
+        smb = discord.Embed(title="A8 DAILY SCRIM", description=f"**MODE : SQUAD\nPRIZE POOL : 50INR\nIDP TIME : 7:00PM (CHANGABLE)\nSTART TIME : AFTER 7 MIN OF IDP\n\n[REGISTER LINK]({link})**", color=blurple)
         await ctx.channel.purge(limit=1)
         squad = await ctx.send("<@&960210472211206175>" , embed=smb)
         await squad.add_reaction("✅")
