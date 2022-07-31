@@ -151,9 +151,9 @@ class Utility(commands.Cog):
 	@cmd.command()
 	@commands.has_role(956071928563630120)
 	@commands.cooldown(2, 10, commands.BucketType.user)
-	async def dm(ctx, member:discord.Member, *, message):
+	async def dm(self, ctx, member: discord.User, *, message):
 		embed = discord.Embed(description=message, color=red)
-		embed.set_footer(text=f'{ctx.author}',icon_url=ctx.author.avatar_url)
+		#embed.set_footer(text=f'{ctx.author}', icon_url=ctx.author.avatar_url)
 		await member.send(embed=embed)
 
 
