@@ -4,12 +4,7 @@ from discord.ext import commands
 from asyncio import sleep
 import datetime
 from datetime import datetime, timedelta
-from data import *
 import requests
-import json
-from modules import (message_handel, channel_handel, checker, config, color)
-onm = message_handel
-ochd = channel_handel
 from discord.ui import Button, View
 import wavelink
 import time
@@ -21,7 +16,7 @@ intents.message_content = True
 intents.reactions = True
 intents.members = True
 intents.voice_states = True
-pref = os.environ["prefix"]
+pref = ","
 
 
 
@@ -29,7 +24,6 @@ pref = os.environ["prefix"]
 
 bot = commands.Bot(command_prefix= commands.when_mentioned_or(pref), intents=intents ) 
 #allowed_mentions = discord.AllowedMentions(roles=True, users=True, everyone=True),
-bot.remove_command("help")
 
 async def load_extensions():
     for filename in os.listdir("./cogs"):
@@ -41,6 +35,7 @@ async def load_extensions():
 async def on_ready():
     await load_extensions()
     await node_connect()
+    print(f"{bot.user} is Ready")
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="ATOMIC 8"))
 
 
@@ -99,8 +94,6 @@ bot.help_command = Nhelp(no_category = 'Commands')
 
 @bot.event
 async def on_command_error(ctx, error):
-    erl = bot.get_channel(1015166083050766366)
-    cmdnf = bot.get_channel(1020698810625826846)
 
     if isinstance(error, commands.MissingRequiredArgument):
         err = discord.Embed(color=0xff0000, description="Missing Required Arguments")
@@ -116,7 +109,6 @@ async def on_command_error(ctx, error):
 
     elif isinstance(error, commands.CommandNotFound):
         err = discord.Embed(color=0xff0000, description="Command Not Found! Please Check Spelling Carefully.")
-        await cmdnf.send(f"```py\nGuild Name: {ctx.guild}\nGuild Id : {ctx.guild.id}\nUser Tag : {ctx.author}\nUser Id : {ctx.author.id}\nCommand : {ctx.message.content}```")
         return await ctx.send(embed=err)
 
 
@@ -182,10 +174,7 @@ async def on_command_error(ctx, error):
 
     else:
         e = str(error)
-        await erl.send(f"<@885193210455011369>\n```py\nGuild Name: {ctx.guild}\nGuild Id : {ctx.guild.id}\nUser Tag : {ctx.author}\nUser Id : {ctx.author.id}\nCommand : {ctx.message.content}\n\n\n{e}```")
-        brp = await ctx.reply(f"Suddenly You Got a Bug!")
-        await brp.edit(content="don't worry! I've reported to developers", delete_after=30)
-
+        await ctx.send(f"```\n{e}\n```")
 
 
 
@@ -279,4 +268,4 @@ async def sdm(ctx, member: discord.User, *, message):
 
 
 
-bot.run(os.environ['TOKEN'])
+bot.run(os.environ["TOKEN"])

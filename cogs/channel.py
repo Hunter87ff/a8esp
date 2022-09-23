@@ -1,10 +1,7 @@
 import discord
 from discord.ext import commands
-
-
-pref = "&"
+from asyncio import sleep
 cmd = commands
-
 
 class Channel(commands.Cog):
 	def __init__(self, bot):
@@ -17,37 +14,52 @@ class Channel(commands.Cog):
 
 	@cmd.command(aliases=['chm'])
 	@commands.has_permissions(manage_channels=True)
+	@commands.bot_has_permissions(manage_channels=True, send_messages=True, manage_messages=True)
 	async def channel_make(self, ctx, *names):
 		for name in names:
 			await ctx.guild.create_text_channel(name)
-			await ctx.send(f'** :white_check_mark:`{name}` has been created**',delete_after=5)
+			await ctx.send(f'**<:vf:947194381172084767>`{name}` has been created**',delete_after=5)
 			await sleep(1)
 
 
 	@cmd.command(aliases=['chd'])
-	@commands.has_permissions(manage_channels=True)
+	@commands.has_permissions(manage_channels=True, send_messages=True)
+	@commands.bot_has_permissions(manage_channels=True, send_messages=True, manage_messages=True)
 	async def channel_del(self, ctx, *channels: discord.TextChannel):
 		for ch in channels:
 			await ch.delete()
-			await ctx.send(f'** :white_check_mark:`{ch.name}` has been deleted**',delete_after=5)
+			await ctx.send(f'**<:vf:947194381172084767>`{ch.name}` has been deleted**',delete_after=5)
 			await sleep(1)
 
 
 
 	@cmd.command(aliases=['dc'])
 	@commands.has_permissions(administrator=True)
-	async def delete_category(self, ctx,category: discord.CategoryChannel):
-		channels = category.channels
-		for channel in channels:
+	@commands.bot_has_permissions(manage_channels=True, send_messages=True, manage_messages=True)
+	async def delete_category(self, ctx, category: discord.CategoryChannel):
+		snd = await ctx.send("<a:loading:969894982024568856>**Processing...**")
+		for channel in category.channels:
 			await channel.delete(reason=f'Deleted by {ctx.author.name}')
-			await ctx.send(f'** :white_check_mark:Successfully deleted  by {ctx.author.name}**', delete_after=5)
+
+			if len(category.channels) == 0:
+				await category.delete()
+				await snd.edit(content=f'**<:vf:947194381172084767>Successfully Deleted**')
+
+
+
+
+	@cmd.command(aliases=['cch'])
+	@commands.has_permissions(manage_channels=True)
+	@commands.bot_has_permissions(manage_channels=True, send_messages=True)
+	async def create_channel(self, ctx, category, *names):
+	  for name in names:
+	    category = await discord.utils.get(ctx.guild.categories, category)
+	    await ctx.guild.create_text_channel(name, category=category, reason=f"{ctx.author} created")
+	    await ctx.send("Done", delete_after=5)
 
 
 
 
 
-
-
-
-def setup(bot):
-	bot.add_cog(Channel(bot))
+async def setup(bot):
+	await bot.add_cog(Channel(bot))
