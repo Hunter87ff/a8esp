@@ -39,7 +39,7 @@ class Music(commands.Cog):
 	    tm = "%H:%M:%S"
 	    if next_song.duration < 3599:
 	        tm = "%M:%S"
-	    next_song_emb = discord.Embed(title="<a:music_disk:1020370054665207888> Now Playing", color=0x303136, description=f'**[{ next_song.title}]({next_song.uri})**\nDuration : {strftime(tm, gmtime(next_song.duration))}\n').set_thumbnail(url=next_song.thumbnail)
+	    next_song_emb = discord.Embed(title="<a:music_disk:1022891223477923841> Now Playing", color=0x303136, description=f'**[{ next_song.title}]({next_song.uri})**\nDuration : {strftime(tm, gmtime(next_song.duration))}\n').set_thumbnail(url=next_song.thumbnail)
 	    try:
 	        await ctx.send(embed=next_song_emb)
 
