@@ -268,3 +268,4 @@ async def sdm(ctx, member: discord.User, *, message):
 
 
 
+bot.run(os.environ["TOKEN"])
