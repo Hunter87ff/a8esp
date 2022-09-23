@@ -1,91 +1,75 @@
-
-import os
+import os 
 import discord
 from discord.ext import commands
-#from discord.ui import Button, View
-#from keep_alive import keep_alive
 from asyncio import sleep
-#import humanfriendly
-import datetime , time
+import datetime
+from datetime import datetime, timedelta
+from data import *
+import requests
 import json
-from data import color
+from modules import (message_handel, channel_handel, checker, config, color)
+onm = message_handel
+ochd = channel_handel
+from discord.ui import Button, View
+import wavelink
+import time
 
 
-blurple = 0x7289da
-greyple = 0x99aab5
-d_grey = 0x546e7a
-d_theme = 0x36393F
-l_grey = 0x979c9f
-d_red = 0x992d22
-red = 0xe74c3c
-d_orange = 0xa84300
-orange= 0xe67e22
-d_gold = 0xc27c0e
-gold = 0xf1c40f
-magenta = 0xe91e63
-purple = 0x9b59b6
-d_blue = 0x206694 
-blue = 0x3498db
-green = 0x2ecc71
-d_green = 0x1f8b4c
-teal = 0x1abc9c
-d_teal = 0x11806a
-yellow = 0xffff00
 
-
-pref = ','
-bot = commands.Bot(command_prefix=commands.when_mentioned_or(pref),intents=discord.Intents.all())
+intents = discord.Intents.default()
+intents.message_content = True
+intents.reactions = True
+intents.members = True
+intents.voice_states = True
+pref = os.environ["prefix"]
 
 
 
 
-'''
-custom_prefixes = {}
-#You'd need to have some sort of persistance here,
-#possibly using the json module to save and load
-#or a database
-default_prefixes = ['&']
 
-async def determine_prefix(bot, message):
-    guild = message.guild
-    #Only allow custom prefixs in guild
-    if guild:
-        return custom_prefixes.get(guild.id, default_prefixes)
-    else:
-        return default_prefixes
+bot = commands.Bot(command_prefix= commands.when_mentioned_or(pref), intents=intents ) 
+#allowed_mentions = discord.AllowedMentions(roles=True, users=True, everyone=True),
+bot.remove_command("help")
 
-bot = commands.Bot(command_prefix = determine_prefix)
-
-@bot.command()
-@commands.has_permissions(administrator=True)
-#@commands.guild_only()
-async def setprefix(ctx, *, prefixes=""):
-    #You'd obviously need to do some error checking here
-    #All I'm doing here is if prefixes is not passed then
-    #set it to default 
-    custom_prefixes[ctx.guild.id] = prefixes.split() or default_prefixes
-    await ctx.send(f"Prefixes set to `{prefixes}` ")
-'''
+async def load_extensions():
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            await bot.load_extension(f"cogs.{filename[:-3]}")
 
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='ATOMIC 8'))
-    print(f'{bot.user} is ready')
+    await load_extensions()
+    await node_connect()
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="ATOMIC 8"))
 
-
-
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
-        bot.load_extension(f"cogs.{filename[:-3]}")
 
 
 
 @bot.event
+async def on_wavelink_node_ready(node: wavelink.Node):
+    print(f"Node {node.identifier} is ready")
+
+async def node_connect():
+    await bot.wait_until_ready()
+    await wavelink.NodePool.create_node(bot = bot, host='lavalink.oops.wtf', port=443, password="www.freelavalink.ga", https=True)
+
+
+
+
+
+
+    
+
+
+   
+   
+	
+@bot.event
 async def on_member_join(member):
 	wchannel = bot.get_channel(881566918312595466)
 	greet = bot.get_channel(880423346200784916)
-	emb = discord.Embed(description=f"**Hey,{member.mention}\n<a:a8_welcome:977877642416111667>  TO ATOMIC 8 \n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:bh2:955529320368066590>╎Read Rules in <#880431068942053406> \n<a:bh2:955529320368066590>╎Chat with Server Members in <#880423346200784916> \n<a:bh2:955529320368066590>╎Take Self Roles From <#881567235053858867>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:heart_beat:955528805039104000> Thanks For Joining <a:heart_beat:955528805039104000>**", color=discord.Color.blurple())
+	emb = discord.Embed(description=f"**Hey,{member.mention}\nWELCOME TO ATOMIC 8 \n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:bh2:955529320368066590>╎Read Rules in <#880431068942053406> \n<a:bh2:955529320368066590>╎Chat with Server Members in <#880423346200784916> \n<a:bh2:955529320368066590>╎Take Self Roles From <#881567235053858867>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<a:heart_beat:955528805039104000> Thanks For Joining <a:heart_beat:955528805039104000>**", color=discord.Color.blurple())
 	emb.set_image(url="https://github.com/Hunter87ff/a8esp/blob/main/assets/standard1.gif?raw=true")
 	
 	gret = discord.Embed(description=f"**<a:bh2:955529320368066590> WELCOME TO ATOMIC 8 <a:bh2:955529320368066590> **\n━━━━━━━━━▣✦▣━━━━━━━━\n<a:arow:982521407223246888> TAKE SELF ROLES FROM  <#881567235053858867>\n<a:arow:982521407223246888> READ RULES HERE <#880431068942053406>\n<a:arow:982521407223246888> FOR ANY HELP  <#899898526455181352>\n━━━━━━━━━▣✦▣━━━━━━━━\n** <a:heart_beat:955528805039104000> THANKS FOR JOINING <a:heart_beat:955528805039104000> **", color=discord.Color.blurple())
@@ -97,91 +81,115 @@ async def on_member_join(member):
 
 
 
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('**Please enter required Arguments **')
-    elif isinstance(error, commands.CommandOnCooldown):
-        return await ctx.send('**Try again <t:{}:R>**'.format(int(time.time() + error.retry_after)))
-        print(ctx.message.content)
-      
-    elif isinstance(error, commands.MissingPermissions):
-        return await ctx.send("You don't have permission to use this command")
-        print(ctx.message.content) 
-
-    elif isinstance(error, commands.DisabledCommand):
-        return await ctx.send("This command is currenlty disabled. Please try again later")
-        print(ctx.message.content)
-
-    elif isinstance(error, commands.CommandNotFound):
-        return await ctx.send("**Command not found! please check the spelling carefully**")
-        print(ctx.message.content)
-
-    elif isinstance(error, (commands.MissingRole, commands.MissingAnyRole)):
-        return await ctx.send("You dont have the exact role to use this command")
-        print(ctx.message.content)
-
-    elif isinstance(error, commands.UserInputError):
-        return await ctx.send("**Invalid input**")
-        print(ctx.message.content)
-
-    else:
-        e = str(error)
-        await ctx.send(f"```py\n{e}```")
-
-
-
-
-
-
+	
+##########################################################################################
+#                                          TEXT COMMANDS
+############################################################################################
 
 class Nhelp(commands.MinimalHelpCommand):
     async def send_pages(self):
         destination = self.get_destination()
         for page in self.paginator.pages:
-            emby = discord.Embed(description=page, color = discord.Color.red())
-#           emby.add_field(name='Support Server', value='[join](https://discord.gg/FXbRZHz3cG)', inline = False)
+            emby = discord.Embed(description=page, color = discord.Color.blurple())
             await destination.send(embed=emby)
 bot.help_command = Nhelp(no_category = 'Commands')
 
-############################################################################################
-#                                      GAME ROLES 
-############################################################################################
-    
-    
-    
-    
-gborder = "https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/star_border.gif"
-
-ffemb = discord.Embed(title="FREE FIRE", description="**Garena Free Fire is a battle royal game. Played by millions of people. Developed by 111 dots studio and published by Garena. React on the emoji to access this game!**", color=discord.Color.blurple())
-ffemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/freefire.png")
-
-
-bgmiemb = discord.Embed(title="BGMI", description="**Battlegrounds Mobile India(BGMI), Made for players in India. It is an online multiplayer battle royale game developed and published by Krafton. React on the emoji to access this game**", color=discord.Color.blurple())
-bgmiemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/bgmi.png")
-
-
-codemb = discord.Embed(title="CALL OF DUTY", description="**Call Of Duty is a multiplayer online battle royal game, developed by TiMi Studio Group and published by Activision.react on the emoji to access this game**", color=discord.Color.blurple())
-codemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/codm.png")
-
-valoemb = discord.Embed(title="VALORANT", description="Valorant is a multiplayer online battle royal game made for pc, developed and published by Riot Games. react on the emoji to access this game.", color=discord.Color.blurple())
-valoemb.set_thumbnail(url="https://raw.githubusercontent.com/Hunter87ff/atomic-8/main/Game_roles/valorant.png")
 
 
 
+@bot.event
+async def on_command_error(ctx, error):
+    erl = bot.get_channel(1015166083050766366)
+    cmdnf = bot.get_channel(1020698810625826846)
+
+    if isinstance(error, commands.MissingRequiredArgument):
+        err = discord.Embed(color=0xff0000, description="Missing Required Arguments")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.MissingPermissions):
+        err = discord.Embed(color=0xff0000, description="You don't have Permissions To Use This Command")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.DisabledCommand):
+        err = discord.Embed(color=0xff0000, description="This Command Is Currently Disabled! You Can Try Again Later")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.CommandNotFound):
+        err = discord.Embed(color=0xff0000, description="Command Not Found! Please Check Spelling Carefully.")
+        await cmdnf.send(f"```py\nGuild Name: {ctx.guild}\nGuild Id : {ctx.guild.id}\nUser Tag : {ctx.author}\nUser Id : {ctx.author.id}\nCommand : {ctx.message.content}```")
+        return await ctx.send(embed=err)
+
+
+    elif isinstance(error, (commands.MissingRole, commands.MissingAnyRole)):
+        err = discord.Embed(color=0xff0000, description="You Do Not Have The Exact Role To Use This Command")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.UserInputError):
+        err = discord.Embed(color=0xff0000, description="Please Enter Valid Arguments")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.EmojiNotFound):
+        err = discord.Embed(color=0xff0000, description="Emoji Not Found")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.NotOwner):
+        err = discord.Embed(color=0xff0000, description="This Is A Owner Only Command You Cant Use It")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.MessageNotFound):
+        err = discord.Embed(color=0xff0000, description="Message Not Found Or Deleted")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.MemberNotFound):
+        err = discord.Embed(color=0xff0000, description="Member Not Found")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.ChannelNotFound):
+        err = discord.Embed(color=0xff0000, description="Channel Not Found")
+        return await ctx.send(embed=err)
+    elif isinstance(error, commands.GuildNotFound):
+        return await ctx.send("**I'm Not In The Server! which You Want To See**", delete_after=19)
+
+    elif isinstance(error, commands.ChannelNotReadable):
+        err = discord.Embed(color=0xff0000, description="Can Not Read Messages Of The Channel")
+        return await ctx.send(embed=err)
+
+    elif isinstance(error, commands.CommandOnCooldown):
+        e = str(error)
+        err = discord.Embed(color=0xff0000, description=e)
+        return await ctx.send(embed=err)
+
+    elif "Manage Messages" in str(error):
+        return await ctx.send(embed=discord.Embed(description="Missing `Manage Messages` Permission", color=0xff0000))
+
+    elif "Unknown file format." in str(error):
+        return await ctx.send(embed=discord.Embed(description="Invalid Input", color=0xff0000))
+
+    elif "403 Forbidden (error code: 50013): Missing Permissions" in str(error):
+        try:
+            return await ctx.author.send(embed=discord.Embed(description=f"I don't have Permissions To Send message in this channel - {ctx.channel.mention}", color=0xff0000))
+        except:
+            return
+
+    elif "This playlist type is unviewable." in str(error):
+        return await ctx.send(embed=discord.Embed(description="This playlist type is unsupported!", color=0xff0000))
+
+    elif "NotFound: 404 Not Found (error code: 10003): Unknown Channel" in str(error):
+        try:
+            return await ctx.send(embed=discord.Embed(description="Channel Deleted Or Invalid", color=0xff0000))
+        except:
+            return
+
+    else:
+        e = str(error)
+        await erl.send(f"<@885193210455011369>\n```py\nGuild Name: {ctx.guild}\nGuild Id : {ctx.guild.id}\nUser Tag : {ctx.author}\nUser Id : {ctx.author.id}\nCommand : {ctx.message.content}\n\n\n{e}```")
+        brp = await ctx.reply(f"Suddenly You Got a Bug!")
+        await brp.edit(content="don't worry! I've reported to developers", delete_after=30)
 
 
 
-@bot.command()
-@commands.has_permissions(manage_messages=True)
-async def grole(ctx):
-  await ctx.send(embed=valoemb)
-  await ctx.send(gborder)
-  await ctx.send(embed=codemb)
-  await ctx.send(gborder)
-  await ctx.send(embed=bgmiemb)
-  await ctx.send(gborder)
-  await ctx.send(embed=ffemb)
+
+
 
 
 
@@ -218,39 +226,57 @@ async def tf(ctx, link, type):
 
 
 
-#tournament setup (category and channels)
-@bot.command(aliases=['ts','tsetup'])
-@commands.has_permissions(manage_channels=True)
-async def tourney_setup(ctx,front,*,category=None):
-    reason= f'Created by {ctx.author.name}'
-    category = await ctx.guild.create_category(category, reason=f"{ctx.author.name} created")
-    await ctx.guild.create_text_channel(str(front)+"info", category=category, reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"updates", category=category,reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"roadmap", category=category,reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"how-to-register", category=category, reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"register-here", category=category, reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"confirmed-teams", category=category, reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"groups", category=category, reason=reason)
-    await ctx.guild.create_text_channel(str(front)+"queries", category=category, reason=reason)
-    await ctx.send(f'**<:vf:910094232574894100> Successfully Created**',delete_after=5)
 
-		 
 
-	
+
+
+
 ############################################################################################
 #                                       INFO
 ############################################################################################
   
-#check latency
+
 @bot.command()
+@commands.cooldown(2, 20, commands.BucketType.user)
+@commands.bot_has_permissions(manage_messages=True, send_messages=True)
 async def ping(ctx):
     await ctx.send(f'**Current ping is {round(bot.latency*1000)} ms**')
 
+
+
+
+
+
+
+
+
 @bot.command()
-async def bot_info(ctx):
-    description = f"**My name is ATOMIC 8, \nOfficial Bot Of ATOMIC 8 \nMy developer is `Hunter87#8787` \n\n:heart: Thanks for using this command**"
-    embed = discord.Embed(title='ABOUT ME', description=description, color = discord.Color.blue())
-    await ctx.send(f'{ctx.author.mention}',embed=embed)
+@commands.guild_only()
+@commands.bot_has_permissions(manage_emojis=True)
+@commands.has_permissions(manage_emojis=True)
+async def addemoji(ctx, emoji: discord.PartialEmoji):
+    if ctx.author.guild_permissions.manage_emojis:
+        for g in bot.guilds:
+            if g.id != ctx.guild.id:
+                #emoji = discord.utils.get(g.emojis, name=name)
+                return await ctx.send(f"{emoji} added", delete_after=10)
+                emoji_bytes = await emoji.read()
+                return await ctx.guild.create_custom_emoji(name=emoji.name, image=emoji_bytes, reason=f'Emoji Added By {ctx.author}')
+    else:
+        return await ctx.send("You Should Check Your Permission")
+
+
+
+
+@bot.command(hidden=True)
+async def sdm(ctx, member: discord.User, *, message):
+    if ctx.author.id == 885193210455011369:
+        await member.send(message)
+    if ctx.author.id != 885193210455011369:
+        return await ctx.send(embed=discord.Embed(description="Command not found! please check the spelling carefully", color=0xff0000))
+
+
+
 
 
 bot.run(os.environ['TOKEN'])
